@@ -1,41 +1,62 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Sans+3:wght@300;400;600;700&display=swap');
 
 @import "tailwindcss";
 
+/* ─────────────────────────────────────────────────────────────
+   InAmigos Foundation — Nature & Environment Design System
+   Inspired by Sky, Grass, Water, Sun, Moon, and Soil
+   ───────────────────────────────────────────────────────────── */
+
 :root {
-  --bg-main: #070a13;
-  --bg-secondary: #090d16;
-  --bg-card: rgba(11, 17, 32, 0.65);
-  --bg-card-hover: rgba(13, 20, 38, 0.85);
-  --border-color: rgba(255, 255, 255, 0.08);
-  --text-title: #f8fafc;
-  --text-body: #cbd5e1;
-  --text-muted: #94a3b8;
-  --input-bg: rgba(15, 23, 42, 0.6);
-  --input-border: rgba(255, 255, 255, 0.1);
-  --shadow-custom: 0 20px 45px -12px rgba(0, 0, 0, 0.6);
+  /* Nature & Environment Core Palette Tokens */
+  --soil:        #6B3E26;    /* Rich Earth & Soil Brown */
+  --sun:         #D97706;    /* Warm Golden Sunlight */
+  --grass:       #15803D;    /* Leaf & Grass Meadow Green */
+  --sky:         #0284C7;    /* Fresh Atmosphere Sky Blue */
+  --water:       #0D9488;    /* River & Ocean Water Teal */
+  --moon:        #0F172A;    /* Moonlit Night Sky Slate */
+
+  /* Standard aliases mapped to Nature Tokens */
+  --earth:       var(--soil);
+  --ochre:       var(--sun);
+  --sage:        var(--grass);
+  --ink:         var(--text-title);
+
+  /* Dark mode (Moonlit Night, Soil & Starlight Sky) */
+  --bg-main:        #0F172A;   /* Moonlit Night Sky */
+  --bg-secondary:   #1E293B;   /* Dusk Horizon */
+  --bg-card:        rgba(30, 41, 59, 0.85);
+  --bg-card-hover:  rgba(47, 63, 86, 0.95);
+  --border-color:   rgba(56, 189, 248, 0.15);   /* Sky blue accent border */
+  --text-title:     #F8FAFC;   /* Crisp Starlight White */
+  --text-body:      #CBD5E1;   /* Soft Moonlight Silver */
+  --text-muted:     #94A3B8;
+  --input-bg:       rgba(15, 23, 42, 0.8);
+  --input-border:   rgba(56, 189, 248, 0.25);
+  --shadow-custom:  0 16px 40px -8px rgba(15, 23, 42, 0.65);
 }
 
 [data-theme="light"] {
-  --bg-main: #f8fafc; /* Warm, clean ivory-slate canvas */
-  --bg-secondary: #f1f5f9;
-  --bg-card: #ffffff;
-  --bg-card-hover: #ffffff;
-  --border-color: rgba(15, 23, 42, 0.1);
-  --text-title: #0f172a; /* Deep charcoal title */
-  --text-body: #334155; /* Slate body text */
-  --text-muted: #475569;
-  --input-bg: #ffffff;
-  --input-border: rgba(15, 23, 42, 0.15);
-  --shadow-custom: 0 10px 30px -5px rgba(15, 23, 42, 0.06), 0 4px 12px -2px rgba(15, 23, 42, 0.04);
+  /* Light mode (Sunlit Meadow, Sky & River Canvas) */
+  --bg-main:        #F4F8F4;   /* Fresh Meadow Air Canvas */
+  --bg-secondary:   #E6EFE8;   /* Riverstone & Dew Greige */
+  --bg-card:        #FFFFFF;
+  --bg-card-hover:  #FAFDFB;
+  --border-color:   rgba(21, 128, 61, 0.15);    /* Grass green accent border */
+  --text-title:     #0F291E;   /* Deep Forest Ink */
+  --text-body:      #2A3E34;   /* Soil/Forest Body Text */
+  --text-muted:     #526E60;   /* Muted Leaf Tone */
+  --input-bg:       #FFFFFF;
+  --input-border:   rgba(21, 128, 61, 0.25);
+  --shadow-custom:  0 8px 24px -4px rgba(15, 41, 30, 0.08), 0 2px 8px -2px rgba(15, 41, 30, 0.04);
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
-    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-family: 'Source Sans 3', 'Lora', serif;
   }
-  
+
   body {
     background-color: var(--bg-main);
     color: var(--text-body);
@@ -44,69 +65,107 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Lora', Georgia, serif;
     color: var(--text-title);
+    font-weight: 700;
+  }
+
+  p, span, a, li, label, input, textarea, select, button {
+    font-family: 'Source Sans 3', sans-serif;
   }
 }
 
-/* Custom Glassmorphism Utilities */
-.glass-panel {
+/* ─── Editorial Card — solid warm surface, no glass ─── */
+.editorial-card {
   background: var(--bg-card);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-color);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.glass-panel-light {
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border-color);
-}
-
-.glass-panel-card {
-  background: var(--bg-card);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--border-color);
+.editorial-card:hover {
+  border-color: var(--grass);
   box-shadow: var(--shadow-custom);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.glass-panel-card:hover {
-  background: var(--bg-card-hover);
-  border-color: rgba(16, 185, 129, 0.35);
-  box-shadow: 0 20px 45px -12px rgba(16, 185, 129, 0.12);
+/* ─── Field Rule — thin editorial horizontal divider ─── */
+.field-rule {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: var(--border-color);
+  margin: 0;
 }
 
-/* Custom Scrollbar styling */
+/* ─── Stamp Label — small-caps category stamp ─── */
+.stamp-label {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--grass);
+}
+
+/* ─── Editorial Figure — image frame treatment ─── */
+.editorial-figure {
+  position: relative;
+  overflow: hidden;
+}
+
+.editorial-figure img {
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.editorial-figure:hover img {
+  transform: scale(1.03);
+}
+
+/* ─── Pull Quote — signature typographic blockquote ─── */
+.pull-quote {
+  font-family: 'Lora', Georgia, serif;
+  font-style: italic;
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: var(--text-title);
+  border-left: 3px solid var(--grass);
+  padding-left: 1.25rem;
+}
+
+/* ─── Earth Underline — active nav indicator ─── */
+.earth-underline {
+  position: relative;
+}
+
+.earth-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--grass);
+  border-radius: 1px;
+}
+
+/* ─── Scrollbar — nature fresh ─── */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: var(--bg-main);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(16, 185, 129, 0.3);
+  background: rgba(21, 128, 61, 0.35);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(16, 185, 129, 0.5);
+  background: rgba(21, 128, 61, 0.6);
 }
 
-/* Text glow styles */
-.glow-text-emerald {
-  text-shadow: 0 0 25px rgba(16, 185, 129, 0.25);
-}
-
-.glow-text-blue {
-  text-shadow: 0 0 25px rgba(59, 130, 246, 0.25);
-}
-
-/* Infinite Rolling Ticker animations */
+/* ─── Infinite Rolling Ticker ─── */
 @keyframes scroll-left {
-  0% { transform: translateX(0); }
+  0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 
@@ -120,47 +179,67 @@
   animation-play-state: paused;
 }
 
-/* Backdrops and ambient glows */
-.mesh-gradient-bg {
-  background-image: 
-    radial-gradient(circle at 10% 15%, rgba(16, 185, 129, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 85% 85%, rgba(59, 130, 246, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.04) 0%, transparent 35%);
-}
-
-.glow-orb-emerald {
-  filter: blur(120px);
-  background: radial-gradient(circle, rgba(16, 185, 129, 0.18) 0%, transparent 70%);
-}
-
-.glow-orb-blue {
-  filter: blur(120px);
-  background: radial-gradient(circle, rgba(59, 130, 246, 0.18) 0%, transparent 70%);
-}
-
-/* Interactive card hover panels */
+/* ─── Project card hover slide ─── */
 .project-card-details {
   transform: translateY(100%);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.glass-panel-card:hover .project-card-details,
-.group:hover > .project-card-details {
+.group:hover > .project-card-details,
+.group:hover .project-card-details {
   transform: translateY(0);
 }
 
-/* Custom form fields */
+/* ─── Form fields — nature focus ─── */
 .form-input-custom {
   background: var(--input-bg);
   border: 1px solid var(--input-border);
-  border-radius: 12px;
+  border-radius: 6px;
   color: var(--text-title);
-  padding: 12px 16px;
-  transition: all 0.3s ease;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.9375rem;
+  padding: 11px 14px;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  width: 100%;
+}
+
+.form-input-custom::placeholder {
+  color: var(--text-muted);
 }
 
 .form-input-custom:focus {
   outline: none;
-  border-color: rgba(16, 185, 129, 0.6);
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+  border-color: var(--grass);
+  box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.15);
+}
+
+/* ─── Field Number — impact numerals (fixed sizing & wrap protection) ─── */
+.field-number {
+  font-family: 'Lora', Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(1.75rem, 2.75vw, 2.75rem);
+  line-height: 1.15;
+  color: var(--text-title);
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  display: inline-block;
+}
+
+/* ─── Section Label — overline eyebrow text ─── */
+.section-eyebrow {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--grass);
+}
+
+/* ─── Warm init fade — gentle scroll reveal base ─── */
+.will-reveal {
+  opacity: 0;
+  transform: translateY(20px);
 }

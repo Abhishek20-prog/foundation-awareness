@@ -1,51 +1,30 @@
 import React, { useEffect, useRef } from "react";
-import { ArrowRight, HeartHandshake, Utensils, Leaf, Award, Heart, Sparkles } from "lucide-react";
+import { ArrowRight, HeartHandshake } from "lucide-react";
 import gsap from "gsap";
 import { useTheme } from "../context/ThemeContext";
 
 export default function Hero() {
-  const heroRef = useRef(null);
-  const titleRef = useRef(null);
-  const descRef = useRef(null);
-  const btnsRef = useRef(null);
-  const dashboardRef = useRef(null);
+  const heroRef    = useRef(null);
+  const titleRef   = useRef(null);
+  const eyebrowRef = useRef(null);
+  const descRef    = useRef(null);
+  const btnsRef    = useRef(null);
+  const stripRef   = useRef(null);
   const { isDark } = useTheme();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Set initial states
-      gsap.set([titleRef.current, descRef.current, btnsRef.current, dashboardRef.current], {
-        opacity: 0,
-        y: 40
-      });
+      gsap.set(
+        [eyebrowRef.current, titleRef.current, descRef.current, btnsRef.current, stripRef.current],
+        { opacity: 0, y: 28 }
+      );
 
-      // Timeline for coordinated entrance
-      const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
-
-      tl.to(titleRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 1.2,
-        delay: 0.2
-      })
-      .to(descRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        offset: "-=0.8"
-      })
-      .to(btnsRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        offset: "-=0.7"
-      })
-      .to(dashboardRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        offset: "-=0.6"
-      });
+      const tl = gsap.timeline({ defaults: { ease: "power1.out" } });
+      tl.to(eyebrowRef.current, { opacity: 1, y: 0, duration: 0.8, delay: 0.15 })
+        .to(titleRef.current,   { opacity: 1, y: 0, duration: 1.0 }, "-=0.5")
+        .to(descRef.current,    { opacity: 1, y: 0, duration: 0.8 }, "-=0.6")
+        .to(btnsRef.current,    { opacity: 1, y: 0, duration: 0.7 }, "-=0.5")
+        .to(stripRef.current,   { opacity: 1, y: 0, duration: 0.8 }, "-=0.4");
     }, heroRef);
 
     return () => ctx.revert();
@@ -53,143 +32,168 @@ export default function Hero() {
 
   const handleScrollTo = (id) => {
     const target = document.getElementById(id);
-    if (target) {
-      window.scrollTo({
-        top: target.offsetTop - 80,
-        behavior: "smooth"
-      });
-    }
+    if (target) window.scrollTo({ top: target.offsetTop - 72, behavior: "smooth" });
   };
+
+  /* Nature theme variables */
+  const heroBg     = "var(--bg-main)";
+  const eyebrow    = "var(--grass)";
+  const titleColor = "var(--text-title)";
+  const bodyColor  = "var(--text-body)";
+  const stripBg    = isDark ? "rgba(30,41,59,0.7)"  : "rgba(230,239,232,0.85)";
+  const stripBdr   = "var(--border-color)";
+  const dividerBg  = "var(--bg-main)";
+
+  const stats = [
+    { value: "50,000+", label: "Meals Distributed",  project: "SEVA",     color: "var(--sun)" },
+    { value: "20,000+", label: "Saplings Planted",   project: "Prakriti", color: "var(--grass)" },
+    { value: "30,000+", label: "Interns Trained",    project: "VIKAS",    color: "var(--sky)" },
+    { value: "900+",    label: "Women Empowered",    project: "UDAAN",    color: "var(--water)" },
+  ];
 
   return (
     <section
       id="home"
       ref={heroRef}
-      className={`relative min-h-screen flex flex-col justify-center items-center px-6 pt-24 overflow-hidden mesh-gradient-bg transition-colors duration-500 ${
-        isDark ? "bg-[#070a13]" : "bg-slate-50"
-      }`}
+      className="relative min-h-screen flex flex-col justify-center items-center px-6 pt-24 pb-0 overflow-hidden"
+      style={{ backgroundColor: heroBg }}
     >
-      {/* Dynamic Background Glowing Orbs */}
-      <div className="absolute top-[20%] left-[10%] w-[35vw] h-[35vw] rounded-full glow-orb-emerald -z-10 pointer-events-none animate-pulse" style={{ animationDuration: '8s' }} />
-      <div className="absolute bottom-[20%] right-[10%] w-[40vw] h-[40vw] rounded-full glow-orb-blue -z-10 pointer-events-none animate-pulse" style={{ animationDuration: '12s' }} />
-
-      {/* Grid overlay for tech look */}
-      <div className={`absolute inset-0 bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] -z-10 pointer-events-none ${
-        isDark 
-          ? "bg-[linear-gradient(to_right,rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.015)_1px,transparent_1px)]"
-          : "bg-[linear-gradient(to_right,rgba(15,23,42,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.03)_1px,transparent_1px)]"
-      }`} />
+      {/* Subtle texture overlay — natural atmosphere grain */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.03]"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E")`,
+          backgroundRepeat: "repeat"
+        }}
+      />
 
       {/* Content wrapper */}
-      <div className="max-w-6xl mx-auto text-center flex flex-col items-center z-10">
-        
-        {/* Subtle Announcement Tag */}
-        <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full backdrop-blur-md mb-6 transition-all duration-300 ${
-          isDark
-            ? "bg-white/5 border border-white/10 hover:border-emerald-500/30 text-white/80"
-            : "bg-emerald-500/10 border border-emerald-500/20 hover:border-emerald-500/40 text-emerald-800"
-        }`}>
-          <Sparkles className="w-3.5 h-3.5 text-emerald-500" />
-          <span className="text-[10px] font-extrabold tracking-widest uppercase">
-            Section 8 Registered Non-Profit
+      <div className="max-w-5xl mx-auto text-center flex flex-col items-center z-10 w-full">
+
+        {/* Eyebrow label */}
+        <div ref={eyebrowRef} className="flex items-center gap-3 mb-6">
+          <span className="field-rule" style={{ width: "2.5rem", backgroundColor: eyebrow }} />
+          <span className="section-eyebrow" style={{ color: eyebrow }}>
+            Section 8 Registered Non-Profit · Bilaspur, Chhattisgarh
           </span>
+          <span className="field-rule" style={{ width: "2.5rem", backgroundColor: eyebrow }} />
         </div>
 
-        {/* Catchy Headline */}
+        {/* Editorial Headline */}
         <h1
           ref={titleRef}
-          className={`text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 max-w-4xl leading-[1.1] ${
-            isDark ? "text-white" : "text-slate-900"
-          }`}
+          className="mb-6 tracking-tight"
+          style={{
+            fontFamily: "'Lora', Georgia, serif",
+            fontWeight: 700,
+            fontSize: "clamp(2.5rem, 6vw, 4.5rem)",
+            lineHeight: 1.12,
+            color: titleColor,
+            maxWidth: "820px"
+          }}
         >
-          Empathy in <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-500 via-teal-400 to-blue-600">Action</span>.
+          Serving Communities.{" "}
+          <em style={{ color: "var(--grass)", fontStyle: "italic" }}>Restoring Nature &amp; Life.</em>
           <br />
-          Impact in <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-indigo-500 to-emerald-500">Communities</span>.
+          One Act at a Time.
         </h1>
 
         {/* Description */}
         <p
           ref={descRef}
-          className={`text-base sm:text-lg md:text-xl font-medium max-w-2xl mb-10 leading-relaxed ${
-            isDark ? "text-slate-400" : "text-slate-600"
-          }`}
+          className="mb-10 leading-relaxed"
+          style={{
+            fontFamily: "'Source Sans 3', sans-serif",
+            fontWeight: 400,
+            fontSize: "1.125rem",
+            color: bodyColor,
+            maxWidth: "560px"
+          }}
         >
-          We are dedicated to fostering community empowerment, animal welfare, women's self-reliance, and eco-sustainability across India.
+          InAmigos Foundation — founded in 2020 — runs food drives, free education,
+          women's skill programmes, and environmental plantations across India.
         </p>
 
         {/* CTA Buttons */}
-        <div
-          ref={btnsRef}
-          className="flex flex-col sm:flex-row gap-4 mb-20 justify-center w-full sm:w-auto"
-        >
+        <div ref={btnsRef} className="flex flex-col sm:flex-row gap-4 mb-16">
           <button
             onClick={() => handleScrollTo("projects")}
-            className="group relative inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 text-sm font-bold text-white shadow-xl shadow-emerald-500/20 hover:shadow-emerald-500/35 hover:scale-105 transition-all duration-300 focus:outline-none"
+            className="inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm font-bold text-white rounded transition-opacity hover:opacity-85"
+            style={{ backgroundColor: "var(--grass)", fontFamily: "'Source Sans 3', sans-serif", letterSpacing: "0.04em" }}
           >
-            Explore Flagship Projects
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            Our Initiatives
+            <ArrowRight className="w-4 h-4" />
           </button>
-          
+
           <button
             onClick={() => handleScrollTo("contact")}
-            className={`group inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm font-semibold backdrop-blur-md hover:scale-105 transition-all duration-300 focus:outline-none ${
-              isDark
-                ? "bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 text-white"
-                : "bg-white border border-slate-200 hover:bg-slate-100 hover:border-slate-300 text-slate-800 shadow-md"
-            }`}
+            className="inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm font-semibold rounded transition-all hover:opacity-80"
+            style={{
+              border: "1px solid var(--border-color)",
+              backgroundColor: "transparent",
+              color: titleColor,
+              fontFamily: "'Source Sans 3', sans-serif"
+            }}
           >
-            Join as Volunteer
-            <HeartHandshake className="w-4 h-4 text-emerald-500 group-hover:scale-110 transition-transform" />
+            Volunteer with Us
+            <HeartHandshake className="w-4 h-4" style={{ color: "var(--grass)" }} />
           </button>
         </div>
 
-        {/* Mini Dashboard of Key Metrics (Inline Stats Showcase) */}
+        {/* Editorial Stat Strip — compact grid with clean sizing */}
         <div
-          ref={dashboardRef}
-          className={`w-full max-w-5xl grid grid-cols-2 md:grid-cols-4 gap-4 p-4 rounded-3xl backdrop-blur-md transition-all duration-300 ${
-            isDark
-              ? "bg-slate-950/40 border border-white/5 shadow-2xl"
-              : "bg-white/90 border border-slate-200/80 shadow-xl shadow-slate-200/60"
-          }`}
+          ref={stripRef}
+          className="w-full max-w-4xl"
+          style={{
+            borderTop: `1px solid ${stripBdr}`,
+            paddingTop: "1.5rem"
+          }}
         >
-          <div className={`flex flex-col items-center p-4 rounded-2xl ${isDark ? "bg-white/2" : "bg-slate-50"}`}>
-            <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center mb-2">
-              <Utensils className="w-4 h-4 text-emerald-500" />
-            </div>
-            <span className={`text-xl sm:text-2xl font-extrabold ${isDark ? "text-white" : "text-slate-900"}`}>50K+</span>
-            <span className={`text-[10px] font-bold uppercase tracking-widest mt-1 ${isDark ? "text-slate-400" : "text-slate-500"}`}>Meals Distributed</span>
-          </div>
-
-          <div className={`flex flex-col items-center p-4 rounded-2xl ${isDark ? "bg-white/2" : "bg-slate-50"}`}>
-            <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center mb-2">
-              <Leaf className="w-4 h-4 text-blue-500" />
-            </div>
-            <span className={`text-xl sm:text-2xl font-extrabold ${isDark ? "text-white" : "text-slate-900"}`}>20K+</span>
-            <span className={`text-[10px] font-bold uppercase tracking-widest mt-1 ${isDark ? "text-slate-400" : "text-slate-500"}`}>Trees Planted</span>
-          </div>
-
-          <div className={`flex flex-col items-center p-4 rounded-2xl ${isDark ? "bg-white/2" : "bg-slate-50"}`}>
-            <div className="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center mb-2">
-              <Award className="w-4 h-4 text-indigo-500" />
-            </div>
-            <span className={`text-xl sm:text-2xl font-extrabold ${isDark ? "text-white" : "text-slate-900"}`}>30K+</span>
-            <span className={`text-[10px] font-bold uppercase tracking-widest mt-1 ${isDark ? "text-slate-400" : "text-slate-500"}`}>Interns Trained</span>
-          </div>
-
-          <div className={`flex flex-col items-center p-4 rounded-2xl col-span-2 md:col-span-1 ${isDark ? "bg-white/2" : "bg-slate-50"}`}>
-            <div className="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center mb-2">
-              <Heart className="w-4 h-4 text-rose-500" />
-            </div>
-            <span className={`text-xl sm:text-2xl font-extrabold ${isDark ? "text-white" : "text-slate-900"}`}>50+ Daily</span>
-            <span className={`text-[10px] font-bold uppercase tracking-widest mt-1 ${isDark ? "text-slate-400" : "text-slate-500"}`}>Animals Nourished</span>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-0">
+            {stats.map((s, i) => (
+              <div
+                key={s.project}
+                className="flex flex-col items-center px-2 py-3 min-w-0"
+                style={{
+                  borderRight: i < stats.length - 1 ? `1px solid ${stripBdr}` : "none"
+                }}
+              >
+                <span
+                  className="font-bold leading-tight mb-1 whitespace-nowrap overflow-hidden text-ellipsis max-w-full"
+                  style={{
+                    fontFamily: "'Lora', Georgia, serif",
+                    fontSize: "clamp(1.25rem, 2.2vw, 1.85rem)",
+                    color: titleColor
+                  }}
+                >
+                  {s.value}
+                </span>
+                <span className="stamp-label mb-0.5" style={{ color: s.color }}>
+                  {s.project}
+                </span>
+                <span
+                  className="text-center truncate max-w-full"
+                  style={{
+                    fontFamily: "'Source Sans 3', sans-serif",
+                    fontSize: "0.75rem",
+                    fontWeight: 600,
+                    color: bodyColor,
+                    letterSpacing: "0.02em"
+                  }}
+                >
+                  {s.label}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* Decorative gradient divider for section transition */}
-      <div className={`absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t pointer-events-none ${
-        isDark ? "from-[#070a13] to-transparent" : "from-slate-50 to-transparent"
-      }`} />
+      {/* Bottom fade divider */}
+      <div
+        className="absolute bottom-0 left-0 w-full h-20 pointer-events-none"
+        style={{ background: `linear-gradient(to top, ${dividerBg}, transparent)` }}
+      />
     </section>
   );
 }

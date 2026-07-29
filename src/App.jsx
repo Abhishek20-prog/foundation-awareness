@@ -15,40 +15,37 @@ export default function App() {
   const { isDark } = useTheme();
 
   return (
-    <div className={`min-h-screen antialiased selection:bg-emerald-500/30 selection:text-white transition-colors duration-500 ${
-      isDark ? "bg-[#070a13] text-slate-300" : "bg-slate-50 text-slate-700"
-    }`}>
-      {/* Navigation Menu */}
+    <div
+      className={`min-h-screen antialiased overflow-x-hidden transition-colors duration-500`}
+      style={{
+        backgroundColor: "var(--bg-main)",
+        color: "var(--text-body)",
+        /* Selection in earthy tones */
+        "--tw-prose-body": "var(--text-body)"
+      }}
+    >
+      {/* Navigation */}
       <Navbar />
 
-      {/* Hero Entrance Panel */}
+      {/* Hero Entrance */}
       <Hero />
 
-      {/* Official NGO Registration Badges Loop */}
+      {/* Credential Ticker */}
       <Credentials />
 
-      {/* Main Core Sections */}
+      {/* Main Content */}
       <main>
-        {/* Mission / Vision / History */}
         <About />
-
-        {/* Six Flagship Project Cards */}
         <Projects />
-
-        {/* Scaled Count statistics dashboard */}
         <Impact />
-
-        {/* Bento Activity Grid with Lightbox popup */}
         <Gallery />
-
-        {/* Volunteer, Donate, FAQ, and Contact Forms */}
         <JoinUs />
       </main>
 
-      {/* Comprehensive Footer and Links */}
+      {/* Footer */}
       <Footer />
 
-      {/* Scroll Spy Indicator */}
+      {/* Scroll-to-top */}
       <ScrollToTop />
     </div>
   );

@@ -8,183 +8,219 @@ import { useTheme } from "../context/ThemeContext";
 gsap.registerPlugin(ScrollTrigger);
 
 const iconMap = {
-  Utensils: Utensils,
-  BookOpen: BookOpen,
-  Heart: Heart,
-  Smile: Smile,
-  Leaf: Leaf,
-  Award: Award
+  Utensils, BookOpen, Heart, Smile, Leaf, Award
+};
+
+/* Each initiative mapped to a Nature Element accent */
+const projectAccents = {
+  seva:         { border: "var(--sun)",   text: "var(--sun)",   bg: "rgba(217,119,6,0.1)"   }, /* Sun / Food */
+  bachpanshala: { border: "var(--sky)",   text: "var(--sky)",   bg: "rgba(2,132,199,0.1)"   }, /* Sky / Education */
+  jeev:         { border: "var(--soil)",  text: "var(--soil)",  bg: "rgba(107,62,38,0.1)"   }, /* Soil / Animals */
+  udaan:        { border: "var(--water)", text: "var(--water)", bg: "rgba(13,148,136,0.1)"  }, /* Water / Empowerment */
+  prakriti:     { border: "var(--grass)", text: "var(--grass)", bg: "rgba(21,128,61,0.1)"   }, /* Grass / Environment */
+  vikas:        { border: "var(--sun)",   text: "var(--sun)",   bg: "rgba(217,119,6,0.1)"   }, /* Sun / Skill Development */
 };
 
 export default function Projects() {
   const sectionRef = useRef(null);
-  const gridRef = useRef(null);
+  const gridRef    = useRef(null);
   const { isDark } = useTheme();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Stagger animate cards
       gsap.fromTo(
         gridRef.current.children,
-        { opacity: 0, y: 50 },
+        { opacity: 0, y: 36 },
         {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          stagger: 0.15,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: gridRef.current,
-            start: "top 80%",
-            toggleActions: "play none none none"
-          }
+          opacity: 1, y: 0, duration: 0.75, stagger: 0.1, ease: "power1.out",
+          scrollTrigger: { trigger: gridRef.current, start: "top 80%", toggleActions: "play none none none" }
         }
       );
     }, sectionRef);
-
     return () => ctx.revert();
   }, []);
+
+  const sectionBg  = "var(--bg-secondary)";
+  const titleColor = "var(--text-title)";
+  const bodyColor  = "var(--text-body)";
+  const mutedColor = "var(--text-muted)";
+  const borderClr  = "var(--border-color)";
+  const cardBg     = "var(--bg-card)";
+  const cardBdr    = "var(--border-color)";
 
   return (
     <section
       id="projects"
       ref={sectionRef}
-      className={`relative py-24 sm:py-32 px-6 overflow-hidden transition-colors duration-500 ${
-        isDark ? "bg-[#070a13] border-t border-white/5" : "bg-slate-50 border-t border-slate-200"
-      }`}
+      className="relative py-24 sm:py-32 px-6 overflow-hidden"
+      style={{ backgroundColor: sectionBg, borderTop: `1px solid ${borderClr}` }}
     >
-      {/* Background radial overlay */}
-      <div className="absolute top-[10%] left-[-10%] w-[35vw] h-[35vw] rounded-full glow-orb-blue opacity-50 pointer-events-none" />
-
       <div className="max-w-7xl mx-auto">
-        
-        {/* Title Block */}
-        <div className="text-center max-w-3xl mx-auto mb-20">
-          <span className="text-xs font-bold text-emerald-500 uppercase tracking-widest mb-3 inline-flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+
+        {/* Section header */}
+        <div className="mb-16 max-w-2xl">
+          <span className="section-eyebrow mb-4 block" style={{ color: "var(--grass)" }}>
             Core Welfare Initiatives
           </span>
-          <h2 className={`text-3xl sm:text-5xl font-extrabold mb-6 tracking-tight ${
-            isDark ? "text-white" : "text-slate-900"
-          }`}>
-            Our Flagship Projects
+          <h2
+            className="mb-4 tracking-tight leading-tight"
+            style={{
+              fontFamily: "'Lora', Georgia, serif",
+              fontWeight: 700,
+              fontSize: "clamp(1.9rem, 3.5vw, 2.8rem)",
+              color: titleColor
+            }}
+          >
+            Six Programmes.<br />
+            <em style={{ color: "var(--sun)", fontStyle: "italic" }}>One Harmonious Purpose.</em>
           </h2>
-          <p className={`font-medium text-base leading-relaxed ${
-            isDark ? "text-slate-400" : "text-slate-600"
-          }`}>
-            InAmigos Foundation operates six distinct projects aimed at delivering compassionate service, environmental preservation, animal rescue, and youth capacity building.
+          <p style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: "1rem", color: bodyColor, lineHeight: 1.6 }}>
+            InAmigos Foundation runs six distinct projects delivering compassionate service,
+            environmental preservation, animal rescue, and youth capacity building across Chhattisgarh.
           </p>
         </div>
 
-        {/* Projects Cards Bento Grid */}
-        <div
-          ref={gridRef}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
+        {/* Project grid */}
+        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {projects.map((project) => {
             const IconComponent = iconMap[project.icon] || Award;
+            const accent = projectAccents[project.id] || { border: "var(--grass)", text: "var(--grass)", bg: "rgba(21,128,61,0.1)" };
+
             return (
               <div
                 key={project.id}
-                className={`group relative h-[360px] rounded-3xl overflow-hidden cursor-pointer flex flex-col justify-between p-8 transition-all duration-300 ${
-                  isDark
-                    ? "glass-panel-card border border-white/5"
-                    : "bg-white border border-slate-200/90 shadow-md shadow-slate-200/50 hover:shadow-xl hover:border-emerald-500/40"
-                }`}
+                className="group relative overflow-hidden flex flex-col text-left transition-all duration-300"
+                style={{
+                  backgroundColor: cardBg,
+                  border: `1px solid ${cardBdr}`,
+                  borderRadius: "4px",
+                  boxShadow: "var(--shadow-custom)"
+                }}
               >
-                {/* Decorative glowing gradient inside card */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                {/* Left accent bar */}
+                <div
+                  className="absolute left-0 top-0 bottom-0 w-[3px] transition-all duration-300"
+                  style={{ backgroundColor: accent.border }}
+                />
 
-                {/* Top Part: Icon & Category */}
-                <div className="relative z-10 flex items-center justify-between">
-                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-all duration-300 ${
-                    isDark ? "bg-white/5 border border-white/10" : "bg-slate-100 border border-slate-200"
-                  }`}>
-                    <IconComponent className={`w-5 h-5 ${project.textCol}`} />
-                  </div>
-                  <div className={`text-[9px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-full border ${
-                    isDark ? "text-slate-400 bg-white/2 border-white/5" : "text-slate-600 bg-slate-100 border-slate-200"
-                  }`}>
-                    NGO FLAGSHIP
-                  </div>
-                </div>
+                {/* Card body */}
+                <div className="pl-6 pr-5 pt-6 pb-5 flex flex-col flex-1">
 
-                {/* Middle Part: Heading & Basic text */}
-                <div className="relative z-10 text-left my-4">
-                  <h3 className={`text-xl font-bold mb-2 group-hover:text-emerald-500 transition-colors flex items-center gap-2 ${
-                    isDark ? "text-white" : "text-slate-900"
-                  }`}>
+                  {/* Icon + Category */}
+                  <div className="flex items-center justify-between mb-4">
+                    <div
+                      className="w-10 h-10 rounded-sm flex items-center justify-center"
+                      style={{ backgroundColor: accent.bg }}
+                    >
+                      <IconComponent className="w-5 h-5" style={{ color: accent.text }} />
+                    </div>
+                    <span
+                      className="text-[9px] font-bold uppercase tracking-widest px-2 py-1"
+                      style={{
+                        fontFamily: "'Source Sans 3', sans-serif",
+                        color: mutedColor,
+                        border: `1px solid ${cardBdr}`,
+                        borderRadius: "2px"
+                      }}
+                    >
+                      Flagship
+                    </span>
+                  </div>
+
+                  {/* Title */}
+                  <h3
+                    className="mb-1 transition-colors duration-200"
+                    style={{
+                      fontFamily: "'Lora', Georgia, serif",
+                      fontWeight: 700,
+                      fontSize: "1.2rem",
+                      color: titleColor,
+                      lineHeight: 1.2
+                    }}
+                  >
                     {project.title}
-                    <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300" />
                   </h3>
-                  <p className={`font-semibold text-xs tracking-wider uppercase mb-3 ${
-                    isDark ? "text-slate-300" : "text-slate-600"
-                  }`}>
+                  <p
+                    className="mb-3 font-semibold uppercase"
+                    style={{
+                      fontFamily: "'Source Sans 3', sans-serif",
+                      fontSize: "0.625rem",
+                      letterSpacing: "0.1em",
+                      color: accent.text
+                    }}
+                  >
                     {project.subtitle}
                   </p>
-                  <p className={`text-sm leading-relaxed font-medium line-clamp-3 ${
-                    isDark ? "text-slate-400" : "text-slate-600"
-                  }`}>
+                  <p
+                    className="leading-relaxed flex-1"
+                    style={{
+                      fontFamily: "'Source Sans 3', sans-serif",
+                      fontSize: "0.875rem",
+                      color: bodyColor,
+                      lineHeight: 1.65
+                    }}
+                  >
                     {project.description}
                   </p>
-                </div>
 
-                {/* Bottom Part: Short Stat Tag */}
-                <div className={`relative z-10 flex justify-between items-center pt-4 border-t ${
-                  isDark ? "border-white/5" : "border-slate-100"
-                }`}>
-                  <span className={`text-[10px] font-bold uppercase tracking-wider ${
-                    isDark ? "text-slate-500" : "text-slate-400"
-                  }`}>
-                    Key Impact Indicator
-                  </span>
-                  <span className={`text-xs font-extrabold ${project.textCol}`}>
-                    Verified Impact
-                  </span>
-                </div>
-
-                {/* Sliding details panel on hover (Stripe/Linear UX style) */}
-                <div className={`project-card-details absolute inset-x-0 bottom-0 border-t p-8 flex flex-col gap-4 text-left z-20 ${
-                  isDark ? "bg-slate-950 border-emerald-500/20" : "bg-white border-emerald-500/30 shadow-2xl"
-                }`}>
-                  <div className="flex items-center gap-2">
-                    <IconComponent className={`w-5 h-5 ${project.textCol}`} />
-                    <h4 className={`text-base font-bold ${isDark ? "text-white" : "text-slate-900"}`}>{project.title} Details</h4>
-                  </div>
-                  
-                  <div>
-                    <span className={`text-[10px] font-extrabold uppercase tracking-wider block mb-1 ${
-                      isDark ? "text-slate-500" : "text-slate-400"
-                    }`}>
-                      Objective
-                    </span>
-                    <p className={`text-xs font-semibold leading-relaxed ${
-                      isDark ? "text-slate-300" : "text-slate-700"
-                    }`}>
-                      {project.objective}
-                    </p>
-                  </div>
-
-                  <div>
-                    <span className={`text-[10px] font-extrabold uppercase tracking-wider block mb-1 ${
-                      isDark ? "text-slate-500" : "text-slate-400"
-                    }`}>
-                      Measured Impact
-                    </span>
-                    <p className="text-xs font-extrabold text-emerald-500">
+                  {/* Bottom: impact stat */}
+                  <div
+                    className="mt-5 pt-4 flex items-center justify-between"
+                    style={{ borderTop: `1px solid ${cardBdr}` }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: "'Source Sans 3', sans-serif",
+                        fontSize: "0.75rem",
+                        fontWeight: 600,
+                        color: bodyColor,
+                        lineHeight: 1.4
+                      }}
+                    >
                       {project.impact}
-                    </p>
+                    </span>
+                    <ArrowUpRight
+                      className="w-4 h-4 shrink-0 ml-3 opacity-0 group-hover:opacity-100 transition-opacity"
+                      style={{ color: accent.text }}
+                    />
                   </div>
-                  
-                  <span className="text-[10px] font-bold text-slate-400 self-end mt-2 uppercase tracking-widest cursor-pointer group-hover:text-emerald-500">
-                    Hover out to close
+                </div>
+
+                {/* Hover reveal — objective panel */}
+                <div
+                  className="project-card-details absolute inset-x-0 bottom-0 px-6 py-5 flex flex-col gap-2"
+                  style={{
+                    backgroundColor: "var(--bg-secondary)",
+                    borderTop: `2px solid ${accent.border}`
+                  }}
+                >
+                  <span
+                    className="font-bold uppercase"
+                    style={{
+                      fontFamily: "'Source Sans 3', sans-serif",
+                      fontSize: "0.6rem",
+                      letterSpacing: "0.12em",
+                      color: accent.text
+                    }}
+                  >
+                    Objective
                   </span>
+                  <p
+                    style={{
+                      fontFamily: "'Source Sans 3', sans-serif",
+                      fontSize: "0.8125rem",
+                      fontWeight: 600,
+                      color: bodyColor,
+                      lineHeight: 1.55
+                    }}
+                  >
+                    {project.objective}
+                  </p>
                 </div>
               </div>
             );
           })}
         </div>
-
       </div>
     </section>
   );
