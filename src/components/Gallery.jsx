@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { X, ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
 import { galleryCategories } from "../data/ngoData";
+import { useTheme } from "../context/ThemeContext";
 
 const galleryImages = [
   // Education
@@ -183,6 +184,7 @@ const galleryImages = [
 export default function Gallery() {
   const [filter, setFilter] = useState("all");
   const [lightboxIndex, setLightboxIndex] = useState(null);
+  const { isDark } = useTheme();
 
   const filteredImages = filter === "all"
     ? galleryImages
@@ -212,7 +214,9 @@ export default function Gallery() {
   return (
     <section
       id="gallery"
-      className="relative py-24 sm:py-32 px-6 bg-[#070a13] border-t border-white/5 overflow-hidden"
+      className={`relative py-24 sm:py-32 px-6 overflow-hidden transition-colors duration-500 ${
+        isDark ? "bg-[#070a13] border-t border-white/5" : "bg-slate-50 border-t border-slate-200"
+      }`}
     >
       <div className="absolute top-[20%] left-[-10%] w-[35vw] h-[35vw] rounded-full glow-orb-emerald opacity-20 pointer-events-none" />
 
@@ -220,14 +224,18 @@ export default function Gallery() {
         
         {/* Title details */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-xs font-bold text-emerald-400 uppercase tracking-widest mb-3 inline-flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+          <span className="text-xs font-bold text-emerald-500 uppercase tracking-widest mb-3 inline-flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
             Media Gallery
           </span>
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-white mb-6 tracking-tight">
+          <h2 className={`text-3xl sm:text-5xl font-extrabold mb-6 tracking-tight ${
+            isDark ? "text-white" : "text-slate-900"
+          }`}>
             Our Work in Action
           </h2>
-          <p className="text-slate-400 font-medium text-base leading-relaxed">
+          <p className={`font-medium text-base leading-relaxed ${
+            isDark ? "text-slate-400" : "text-slate-600"
+          }`}>
             A visual overview of our on-ground activities across Chhattisgarh, capturing moments of education, feeding drives, animal protection, and nature preservation.
           </p>
         </div>
@@ -241,7 +249,9 @@ export default function Gallery() {
               className={`px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
                 filter === cat.id
                   ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/25"
-                  : "bg-white/5 border border-white/5 text-slate-300 hover:text-white hover:bg-white/10"
+                  : isDark
+                  ? "bg-white/5 border border-white/5 text-slate-300 hover:text-white hover:bg-white/10"
+                  : "bg-white border border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-100 shadow-sm"
               }`}
             >
               {cat.label}
@@ -255,7 +265,11 @@ export default function Gallery() {
             <div
               key={img.id}
               onClick={() => setLightboxIndex(index)}
-              className="break-inside-avoid relative rounded-3xl overflow-hidden cursor-zoom-in border border-white/5 shadow-lg bg-slate-950/40 mb-6 group transition-all duration-300 hover:border-emerald-500/30"
+              className={`break-inside-avoid relative rounded-3xl overflow-hidden cursor-zoom-in mb-6 group transition-all duration-300 ${
+                isDark
+                  ? "border border-white/5 shadow-lg bg-slate-950/40 hover:border-emerald-500/30"
+                  : "border border-slate-200/90 shadow-md bg-white hover:border-emerald-500/40 hover:shadow-xl"
+              }`}
             >
               <img
                 src={img.url}
@@ -275,7 +289,7 @@ export default function Gallery() {
                 <h3 className="text-sm font-bold text-white mb-1">
                   {img.title}
                 </h3>
-                <p className="text-[10px] text-slate-400 font-semibold leading-normal">
+                <p className="text-[10px] text-slate-300 font-semibold leading-normal">
                   {img.desc}
                 </p>
               </div>

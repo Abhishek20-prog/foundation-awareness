@@ -1,8 +1,11 @@
 import React from "react";
 import { HeartHandshake, MapPin, Phone, Mail, ArrowUp } from "lucide-react";
 import { contactDetails } from "../data/ngoData";
+import { useTheme } from "../context/ThemeContext";
 
 export default function Footer() {
+  const { isDark } = useTheme();
+
   const handleScrollTo = (id) => {
     const target = document.getElementById(id);
     if (target) {
@@ -14,7 +17,9 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-[#05070d] border-t border-white/5 pt-16 pb-8 px-6 text-left relative z-20">
+    <footer className={`pt-16 pb-8 px-6 text-left relative z-20 transition-colors duration-500 ${
+      isDark ? "bg-[#05070d] border-t border-white/5" : "bg-slate-900 border-t border-slate-800 text-slate-100"
+    }`}>
       
       {/* Decorative Top Line */}
       <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-emerald-500/25 via-blue-500/10 to-transparent" />
@@ -47,13 +52,13 @@ export default function Footer() {
 
           {/* Certificates Tags */}
           <div className="flex flex-wrap gap-2 mt-2">
-            <span className="text-[8px] font-extrabold text-slate-500 bg-white/2 border border-white/5 px-2 py-0.5 rounded uppercase tracking-wider">
+            <span className="text-[8px] font-extrabold text-slate-400 bg-white/5 border border-white/10 px-2 py-0.5 rounded uppercase tracking-wider">
               80G Certified
             </span>
-            <span className="text-[8px] font-extrabold text-slate-500 bg-white/2 border border-white/5 px-2 py-0.5 rounded uppercase tracking-wider">
+            <span className="text-[8px] font-extrabold text-slate-400 bg-white/5 border border-white/10 px-2 py-0.5 rounded uppercase tracking-wider">
               12A Registered
             </span>
-            <span className="text-[8px] font-extrabold text-slate-500 bg-white/2 border border-white/5 px-2 py-0.5 rounded uppercase tracking-wider">
+            <span className="text-[8px] font-extrabold text-slate-400 bg-white/5 border border-white/10 px-2 py-0.5 rounded uppercase tracking-wider">
               CSR-1 Compliant
             </span>
           </div>
@@ -177,7 +182,7 @@ export default function Footer() {
           </p>
           <div className="flex flex-wrap justify-center md:justify-start gap-3">
             {contactDetails.hashtags.map((tag) => (
-              <span key={tag} className="text-[9px] font-extrabold text-slate-600 hover:text-emerald-400 transition-colors">
+              <span key={tag} className="text-[9px] font-extrabold text-slate-400 hover:text-emerald-400 transition-colors">
                 {tag}
               </span>
             ))}
@@ -190,7 +195,7 @@ export default function Footer() {
             href={contactDetails.socials.facebook}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-9 h-9 rounded-xl bg-white/2 hover:bg-emerald-500/10 border border-white/5 hover:border-emerald-500/20 flex items-center justify-center text-slate-400 hover:text-emerald-400 transition-all duration-300"
+            className="w-9 h-9 rounded-xl bg-white/5 hover:bg-emerald-500/20 border border-white/10 flex items-center justify-center text-slate-300 hover:text-emerald-400 transition-all duration-300"
             aria-label="Facebook Profile Link"
           >
             <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
@@ -201,7 +206,7 @@ export default function Footer() {
             href={contactDetails.socials.instagram}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-9 h-9 rounded-xl bg-white/2 hover:bg-emerald-500/10 border border-white/5 hover:border-emerald-500/20 flex items-center justify-center text-slate-400 hover:text-emerald-400 transition-all duration-300"
+            className="w-9 h-9 rounded-xl bg-white/5 hover:bg-emerald-500/20 border border-white/10 flex items-center justify-center text-slate-300 hover:text-emerald-400 transition-all duration-300"
             aria-label="Instagram Profile Link"
           >
             <svg className="w-4.5 h-4.5 stroke-current fill-none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
@@ -214,7 +219,7 @@ export default function Footer() {
             href={contactDetails.socials.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-9 h-9 rounded-xl bg-white/2 hover:bg-emerald-500/10 border border-white/5 hover:border-emerald-500/20 flex items-center justify-center text-slate-400 hover:text-emerald-400 transition-all duration-300"
+            className="w-9 h-9 rounded-xl bg-white/5 hover:bg-emerald-500/20 border border-white/10 flex items-center justify-center text-slate-300 hover:text-emerald-400 transition-all duration-300"
             aria-label="LinkedIn Company Link"
           >
             <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
@@ -225,7 +230,7 @@ export default function Footer() {
             href={contactDetails.socials.youtube}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-9 h-9 rounded-xl bg-white/2 hover:bg-emerald-500/10 border border-white/5 hover:border-emerald-500/20 flex items-center justify-center text-slate-400 hover:text-emerald-400 transition-all duration-300"
+            className="w-9 h-9 rounded-xl bg-white/5 hover:bg-emerald-500/20 border border-white/10 flex items-center justify-center text-slate-300 hover:text-emerald-400 transition-all duration-300"
             aria-label="YouTube Channel Link"
           >
             <svg className="w-4.5 h-4.5 fill-current" viewBox="0 0 24 24">

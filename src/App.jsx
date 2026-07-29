@@ -9,10 +9,15 @@ import Gallery from "./components/Gallery";
 import JoinUs from "./components/JoinUs";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
+import { useTheme } from "./context/ThemeContext";
 
 export default function App() {
+  const { isDark } = useTheme();
+
   return (
-    <div className="min-h-screen bg-[#070a13] text-slate-300 antialiased selection:bg-emerald-500/30 selection:text-white">
+    <div className={`min-h-screen antialiased selection:bg-emerald-500/30 selection:text-white transition-colors duration-500 ${
+      isDark ? "bg-[#070a13] text-slate-300" : "bg-slate-50 text-slate-700"
+    }`}>
       {/* Navigation Menu */}
       <Navbar />
 
