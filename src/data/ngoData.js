@@ -90,8 +90,8 @@ export const contactDetails = {
   email: "support@inamigosfoundation.org.in",
   altEmail: "inamigosfoundation@gmail.com",
   socials: {
-    facebook: "https://www.facebook.com/inamigosfoundation/",
-    instagram: "https://www.instagram.com/inamigos_foundation/",
+    facebook: "https://www.facebook.com/inamigos.inamigos",
+    instagram: "https://www.instagram.com/inamigos/",
     linkedin: "https://www.linkedin.com/company/inamigos-foundation/",
     youtube: "https://www.youtube.com/@inamigosfoundation"
   },
